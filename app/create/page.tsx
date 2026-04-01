@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
-export default function CreatePage() {
+function CreateForm() {
   const searchParams = useSearchParams()
   const template = searchParams.get('template') || 'heart'
   const router = useRouter()
@@ -84,5 +84,13 @@ export default function CreatePage() {
         </form>
       </div>
     </main>
+  )
+}
+
+export default function CreatePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">กำลังโหลด...</div>}>
+      <CreateForm />
+    </Suspense>
   )
 }
