@@ -1,30 +1,53 @@
-'use client'
-import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
+import { notFound } from 'next/navigation'
 
-export default function Home() {
-  const router = useRouter()
+async function getSurprise(id: string) {
+  const { data, error } = await supabase
+    .from('surprises')
+    .select('*')
+    .eq('id', id)
+    .single()
 
-  const templates = [
-    { id: 'heart', name: 'หัวใจสีชมพู', color: 'bg-pink-100' },
-    { id: 'star', name: 'ดาวระยิบระยับ', color: 'bg-yellow-100' },
-    { id: 'dark', name: 'ลึกลับยามค่ำคืน', color: 'bg-gray-900 text-white' },
-  ]
+  if (error || !data) return null
+  return data
+}
+
+export default async function SurprisePage({ params }: { params: { id: string } }) {
+  const data = await getSurprise(params.id)
+
+  if (!data) return notFound()
+
+  let bgClass = 'bg-white'
+  let textClass = 'text-gray-800'
+  
+  if (data.template === 'heart') { 
+    bgClass = 'bg-pink-100'
+    textClass = 'text-pink-900' 
+  } else if (data.template === 'star') { 
+    bgClass = 'bg-yellow-100'
+    textClass = 'text-yellow-900' 
+  } else if (data.template === 'dark') { 
+    bgClass = 'bg-gray-900'
+    textClass = 'text-white' 
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-white">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">สร้างเซอร์ไพรส์ให้แฟน</h1>
-      <p className="mb-8 text-gray-600">เลือกเทมเพลตที่คุณชอบ แล้วเริ่มสร้างเลย</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {templates.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => router.push(`/create?template=${t.id}`)}
-            className={`p-6 rounded-xl shadow-lg hover:scale-105 transition transform ${t.color} border border-gray-200`}
-          >
-            <h2 className="text-xl font-semibold">{t.name}</h2>
-          </button>
-        ))}
+    <main className={`min-h-screen flex flex-col items-center justify-center p-10 ${bgClass} ${textClass}`}>
+      <div className="max-w-2xl text-center space-y-6 animate-fade-in">
+        {data.image_url && (
+          <img 
+            src={data.image_url} 
+            alt="Surprise" 
+            className="mx-auto rounded-lg shadow-xl max-h-96 object-cover" 
+          />
+        )}
+        <h1 className="text-4xl font-bold">ถึงคนพิเศษ...</h1>
+        <p className="text-xl whitespace-pre-wrap leading-relaxed">
+          {data.message}
+        </p>
+        <div className="pt-8 text-sm opacity-70">
+          สร้างด้วย ❤️ จาก Surprise Web
+        </div>
       </div>
     </main>
   )
