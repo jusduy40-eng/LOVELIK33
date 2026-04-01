@@ -5,9 +5,9 @@ export default function Home() {
   const router = useRouter()
 
   const templates = [
-    { id: 'heart', name: '❤️ หัวใจสีชมพู', color: 'bg-pink-100' },
-    { id: 'star', name: '🌟 ดาวระยิบระยับ', color: 'bg-yellow-100' },
-    { id: 'dark', name: '🌙 ลึกลับยามค่ำคืน', color: 'bg-gray-900 text-white' },
+    { id: 'heart', name: 'หัวใจสีชมพู', color: 'bg-pink-100' },
+    { id: 'star', name: 'ดาวระยิบระยับ', color: 'bg-yellow-100' },
+    { id: 'dark', name: 'ลึกลับยามค่ำคืน', color: 'bg-gray-900 text-white' },
   ]
 
   return (
