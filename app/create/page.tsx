@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
 
 export default function CreatePage() {
   const searchParams = useSearchParams()
@@ -30,7 +29,7 @@ export default function CreatePage() {
         setLoading(false)
         return
       }
-      const {  publicData } = supabase.storage.from('images').getPublicUrl(fileName)
+      const { data: publicData } = supabase.storage.from('images').getPublicUrl(fileName)
       imageUrl = publicData.publicUrl
     }
 
