@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Kanit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const kanit = Kanit({ 
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "thai"] 
+});
 
 export const metadata: Metadata = {
-  title: "Surprise Web - สร้างเซอร์ไพรส์ให้แฟน",
-  description: "สร้างเว็บไซต์เซอร์ไพรส์แฟนฟรี",
+  title: "Surprise Web - สร้างเซอร์ไพรส์ให้แฟนฟรี",
+  description: "สร้างเว็บไซต์เซอร์ไพรส์แฟนฟรี ไม่มีค่าใช้จ่าย ง่ายและรวดเร็ว",
+  keywords: ["เซอร์ไพรส์", "แฟน", "ความรัก", "เว็บไซต์ฟรี"],
 };
 
 export default function RootLayout({
@@ -16,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th">
-      <body className={inter.className}>{children}</body>
+      <body className={kanit.className}>{children}</body>
     </html>
   );
 }
